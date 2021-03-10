@@ -114,8 +114,6 @@ services:
     restart: always
     volumes:
       - quickstatements-data:/quickstatements/data
-    entrypoint: /bin/bash
-    command: /wait-entrypoint.sh
     ports:
       - "9191:80"
     depends_on:
@@ -135,3 +133,4 @@ services:
 
 volumes:
   LocalSettings:
+  quickstatements-data:
