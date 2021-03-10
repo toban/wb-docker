@@ -19,13 +19,13 @@ services:
     environment:
       - DB_SERVER=mysql.svc:3306
       # CONFIG - Change the default values below
-      - MW_ADMIN_NAME=WikibaseAdmin
-      - MW_ADMIN_PASS=WikibaseDockerAdminPass
+      - MW_ADMIN_NAME=${MW_ADMIN_NAME}
+      - MW_ADMIN_PASS=${MW_ADMIN_PASS}
       - MW_ADMIN_EMAIL=admin@example.com
       - MW_WG_SECRET_KEY=secretkey
       # CONFIG - Change the default values below (should match mysql values in this file)
-      - DB_USER=wikiuser
-      - DB_PASS=sqlpass
+      - DB_USER=${MYSQL_USER}
+      - DB_PASS=${MYSQL_PASSWORD}
       - DB_NAME=my_wiki
       - MW_ELASTIC_HOST=elasticsearch.svc
       - MW_ELASTIC_PORT=9200
@@ -35,9 +35,9 @@ services:
     environment:
       # CONFIG - Change the default values below (should match values passed to wikibase)
       MYSQL_DATABASE: 'my_wiki'
-      MYSQL_USER: 'wikiuser'
-      MYSQL_PASSWORD: 'sqlpass'
-      MYSQL_ROOT_PASSWORD: 'toor'
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
     networks:
       default:
         aliases:
@@ -46,7 +46,7 @@ services:
     - ./config/repo/mysql/create-db.sql:/docker-entrypoint-initdb.d/01-create-db.sql
   wdqs-frontend:
     image: "${QUERYSERVICE_UI_IMAGE_NAME}"
-    restart: unless-stopped
+    restart: always
     ports:
     # CONFIG - Change the 8282 here to expose the Query Service UI on a different port
      - "8282:80"
@@ -75,7 +75,7 @@ services:
       - 9999
   wdqs-proxy:
     image: wikibase/wdqs-proxy
-    restart: unless-stopped
+    restart: always
     environment:
       - PROXY_PASS_HOST=wdqs.svc:9999
     depends_on:
@@ -86,7 +86,7 @@ services:
          - wdqs-proxy.svc
   elasticsearch:
     image: "${ELASTICSEARCH_IMAGE_NAME}"
-    restart: unless-stopped
+    restart: always
     networks:
       default:
         aliases:
@@ -96,7 +96,7 @@ services:
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
   wdqs-updater:
     image: "${QUERYSERVICE_IMAGE_NAME}"
-    restart: unless-stopped
+    restart: always
     command: /runUpdate.sh
     depends_on:
     - wdqs
