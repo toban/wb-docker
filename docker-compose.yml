@@ -22,7 +22,7 @@ services:
       - MW_ADMIN_NAME=${MW_ADMIN_NAME}
       - MW_ADMIN_PASS=${MW_ADMIN_PASS}
       - MW_ADMIN_EMAIL=admin@example.com
-      - MW_WG_SECRET_KEY=secretkey
+      - MW_WG_SECRET_KEY=${MW_SECRET_KEY}
       # CONFIG - Change the default values below (should match mysql values in this file)
       - DB_USER=${MYSQL_USER}
       - DB_PASS=${MYSQL_PASSWORD}
@@ -42,8 +42,6 @@ services:
       default:
         aliases:
          - mysql.svc
-    volumes: 
-    - ./config/repo/mysql/create-db.sql:/docker-entrypoint-initdb.d/01-create-db.sql
   wdqs-frontend:
     image: "${QUERYSERVICE_UI_IMAGE_NAME}"
     restart: always
@@ -123,8 +121,8 @@ services:
         aliases:
          - quickstatements.svc
     environment:
-      - QS_PUBLIC_SCHEME_HOST_AND_PORT=http://quickstatements.svc:80
-      - WB_PUBLIC_SCHEME_HOST_AND_PORT=http://wikibase.svc:80
+      - QS_PUBLIC_SCHEME_HOST_AND_PORT=${QS_PUBLIC_SCHEME_HOST_AND_PORT}
+      - WB_PUBLIC_SCHEME_HOST_AND_PORT=${WB_PUBLIC_SCHEME_HOST_AND_PORT}
       - WIKIBASE_SCHEME_AND_HOST=http://wikibase.svc
       - WB_PROPERTY_NAMESPACE=122
       - "WB_PROPERTY_PREFIX=Property:"
