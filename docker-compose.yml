@@ -11,29 +11,31 @@ services:
     restart: always
     ports:
       - "80:80"
+    volumes:
+      - quickstatements-data:/quickstatements/data
     networks:
       default:
         aliases:
          - wikibase.svc
          - ${WIKIBASE_HOST}
-         # CONFIG - Add your real wikibase hostname here, only for internal names and when NOT terminating SSL outside the container.
     environment:
       - DB_SERVER=mysql.svc:3306
-      # CONFIG - Change the default values below
       - MW_ADMIN_NAME=${MW_ADMIN_NAME}
       - MW_ADMIN_PASS=${MW_ADMIN_PASS}
       - MW_ADMIN_EMAIL=admin@example.com
       - MW_WG_SECRET_KEY=${MW_SECRET_KEY}
-      # CONFIG - Change the default values below (should match mysql values in this file)
       - DB_USER=${MYSQL_USER}
       - DB_PASS=${MYSQL_PASSWORD}
       - DB_NAME=my_wiki
       - MW_ELASTIC_HOST=elasticsearch.svc
       - MW_ELASTIC_PORT=9200
       - MW_SERVER=https://${WIKIBASE_HOST}
+      - QS_PUBLIC_SCHEME_HOST_AND_PORT=${QS_PUBLIC_SCHEME_HOST_AND_PORT}
   mysql:
     image: mariadb:10.3
     restart: always
+    volumes:
+      - mediawiki-mysql-data:/var/lib/mysql
     environment:
       # CONFIG - Change the default values below (should match values passed to wikibase)
       MYSQL_DATABASE: 'my_wiki'
@@ -63,6 +65,8 @@ services:
     image: "${QUERYSERVICE_IMAGE_NAME}"
     restart: always
     command: /runBlazegraph.sh
+    volumes:
+      - query-service-data:/wdqs/data
     networks:
       default:
         aliases:
@@ -115,17 +119,17 @@ services:
     volumes:
       - quickstatements-data:/quickstatements/data
     ports:
-      - "9191:80"
+      - "8840:80"
     depends_on:
       - wikibase
     networks:
       default:
         aliases:
-         - quickstatements.svc
+         - ${QS_HOST}
     environment:
       - QS_PUBLIC_SCHEME_HOST_AND_PORT=${QS_PUBLIC_SCHEME_HOST_AND_PORT}
       - WB_PUBLIC_SCHEME_HOST_AND_PORT=${WB_PUBLIC_SCHEME_HOST_AND_PORT}
-      - WIKIBASE_SCHEME_AND_HOST=http://wikibase.svc
+      - WIKIBASE_SCHEME_AND_HOST=https://${WIKIBASE_HOST}
       - WB_PROPERTY_NAMESPACE=122
       - "WB_PROPERTY_PREFIX=Property:"
       - WB_ITEM_NAMESPACE=120
@@ -134,3 +138,4 @@ services:
 volumes:
   LocalSettings:
   quickstatements-data:
+  mediawiki-mysql-data:
