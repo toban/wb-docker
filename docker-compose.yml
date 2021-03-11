@@ -55,7 +55,7 @@ services:
         aliases:
          - wdqs-frontend.svc
     environment:
-      - WIKIBASE_HOST=wikibase.svc
+      - WIKIBASE_HOST=${WIKIBASE_HOST}
       - WDQS_HOST=wdqs-proxy.svc
   wdqs:
     image: "${QUERYSERVICE_IMAGE_NAME}"
@@ -66,7 +66,7 @@ services:
         aliases:
          - wdqs.svc
     environment:
-      - WIKIBASE_HOST=wikibase.svc
+      - WIKIBASE_HOST=${WIKIBASE_HOST}
       - WDQS_HOST=wdqs.svc
       - WDQS_PORT=9999
     expose:
@@ -104,7 +104,7 @@ services:
         aliases:
          - wdqs-updater.svc
     environment:
-     - WIKIBASE_HOST=wikibase.svc
+     - WIKIBASE_HOST=${WIKIBASE_HOST}
      - WDQS_HOST=wdqs.svc
      - WDQS_PORT=9999
   quickstatements:
