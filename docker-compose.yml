@@ -134,6 +134,8 @@ services:
       - "WB_PROPERTY_PREFIX=Property:"
       - WB_ITEM_NAMESPACE=120
       - "WB_ITEM_PREFIX=Item:"
+      - OAUTH_CONSUMER_KEY=${OAUTH_CONSUMER_KEY}
+      - OAUTH_CONSUMER_SECRET=${OAUTH_CONSUMER_SECRET}
 
 volumes:
   LocalSettings:
