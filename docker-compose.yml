@@ -138,4 +138,5 @@ services:
 volumes:
   LocalSettings:
   quickstatements-data:
+  query-service-data:
   mediawiki-mysql-data:
