@@ -15,6 +15,7 @@ services:
       - quickstatements-data:/quickstatements/data
       - ./quickstatements/extra-install.sh:/extra-install.sh
       - ./quickstatements/oauth.ini:/templates/oauth.ini
+      - ./LocalSettings/LocalSettings.php:/var/www/html/LocalSettings.d/LocalSettings.override.php
     networks:
       default:
         aliases:
