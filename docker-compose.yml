@@ -33,6 +33,7 @@ services:
       - MW_ELASTIC_HOST=elasticsearch.svc
       - MW_ELASTIC_PORT=9200
       - MW_SERVER=https://${WIKIBASE_HOST}
+      - WIKIBASE_HOST=${WIKIBASE_HOST}
       - QS_PUBLIC_SCHEME_HOST_AND_PORT=${QS_PUBLIC_SCHEME_HOST_AND_PORT}
   mysql:
     image: mariadb:10.3
