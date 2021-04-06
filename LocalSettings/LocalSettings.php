@@ -21,6 +21,7 @@ if( isset ( $_SERVER['HTTP_X_FEDPROPS_SOURCEAPIRESPONSE'] ) ) {
    }
 }
 
+wfLoadExtension( 'ConfirmEdit/QuestyCaptcha' );
 $wgCaptchaQuestions = [
   'What animal' => 'car',
 ];
