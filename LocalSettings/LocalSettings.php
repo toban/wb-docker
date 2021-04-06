@@ -21,6 +21,18 @@ if( isset ( $_SERVER['HTTP_X_FEDPROPS_SOURCEAPIRESPONSE'] ) ) {
    }
 }
 
+$wgCaptchaQuestions = [
+  'What animal' => 'car',
+];
+
+$wgCaptchaTriggers['edit']          = true;
+$wgCaptchaTriggers['create']        = true;
+$wgCaptchaTriggers['createtalk']    = true;
+$wgCaptchaTriggers['addurl']        = true;
+$wgCaptchaTriggers['createaccount'] = true;
+$wgCaptchaTriggers['badlogin']      = true;
+
+
 $wgVirtualRestConfig['modules']['parsoid'] = array(
     // URL to the Parsoid instance.
     // You should change $wgServer to match the non-local host running Parsoid
