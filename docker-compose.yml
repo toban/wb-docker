@@ -120,8 +120,6 @@ services:
     restart: always
     volumes:
       - quickstatements-data:/quickstatements/data
-    entrypoint: /bin/bash
-    command: /wait-entrypoint.sh
     ports:
     # CONFIG - Change the 8840 here to expose the quickstatements on a different port
       - "8840:80"
